@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y wget zip build-essential && rm -rf /var
 # Install homology teams
 # NB: homolgy teams depends on gcc compiler for make
 WORKDIR ${INSTALL_DIR}
-RUN wget http://euler.slu.edu/~goldwasser/homologyteams/homologyteams-1.1.zip &&\
+RUN wget --no-check-certificate http://euler.slu.edu/~goldwasser/homologyteams/homologyteams-1.1.zip &&\
  unzip homologyteams-1.1.zip &&\
  cd homologyteams-1.1/src &&\
  make
@@ -48,7 +48,7 @@ RUN apt-get update &&\
  echo 'Install marginal dependencies from the universe deposit' &&\
  apt-get install -y mpi &&\
  rm -rf /var/lib/apt/lists/* &&\
- wget http://bioinformatics.psb.ugent.be/downloads/psb/i-adhore/i-adhore-3.0.01.tar.gz &&\
+ wget --no-check-certificate http://bioinformatics.psb.ugent.be/downloads/psb/i-adhore/i-adhore-3.0.01.tar.gz &&\
  tar -zxvf i-adhore-3.0.01.tar.gz &&\
  rm i-adhore-3.0.01.tar.gz &&\
  cd i-adhore-3.0.01 &&\
