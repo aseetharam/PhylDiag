@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:16.04
 
 # Install dependencies of the os
 RUN apt-get update && apt-get install -y software-properties-common && rm -rf /var/lib/apt/lists/*
