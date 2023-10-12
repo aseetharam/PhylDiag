@@ -1,6 +1,7 @@
 FROM ubuntu:18.04
 
 # Install dependencies of the os
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y software-properties-common && rm -rf /var/lib/apt/lists/*
 
 # Install dependencies of LibsDyogen
