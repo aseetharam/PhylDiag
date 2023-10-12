@@ -63,8 +63,8 @@ WORKDIR ${INSTALL_DIR}
 RUN apt-get update
 RUN apt-get install -y g++
 RUN apt-get autoremove -y
-RUN wget --no-check-certificate -r -np -nH --cut-dirs=3 -R index.html https://bbc.mdc-berlin.de/svn/bioinformatics/Software/cyntenator/ &&\
- cd cyntenator &&\
+RUN git clone --recursive git@github.com:dieterich-lab/cyntenator.git
+RUN cd cyntenator &&\
  g++ -Wno-deprecated cyntenator.cpp localign.cpp genome.cpp flow.cpp species_tree.cpp -o cyntenator
 # To plug cyntenator to LibsDyogen
 # sed -i "/PATH_CYNTENATOR_BIN =/c\PATH_CYNTENATOR_BIN = \"${INSTALL_DIR}/cyntenator/cyntenator\"" ${PATH_LIBSDYOGEN}/utils/myCyntenator.py
