@@ -1,20 +1,17 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 # Install dependencies of the os
 RUN apt-get update && apt-get install -y software-properties-common && rm -rf /var/lib/apt/lists/*
 
 # Install dependencies of LibsDyogen
-RUN add-apt-repository universe && apt-get update &&\
- echo 'Install core dependencies' &&\
- apt-get install -y python2.7 git cython &&\
- echo 'Install marginal dependencies' &&\
- apt-get install -y python-numpy &&\
- echo 'Install marginal dependencies from the universe deposit' &&\
- apt-get install -y python-matplotlib python-scipy &&\
- rm -rf /var/lib/apt/lists/*
+RUN add-apt-repository universe && apt-get update
+RUN apt-get install -y python2.7 git cython
+RUN apt-get install -y python-numpy
+RUN apt-get install -y python-matplotlib python-scipy
+RUN rm -rf /var/lib/apt/lists/*
 
 # Install LibsDyogen in INSTALL_DIR
-ENV INSTALL_DIR "/home/${USER}/Dev"
+ENV INSTALL_DIR "/opt/Dev"
 RUN mkdir -p ${INSTALL_DIR}
 WORKDIR ${INSTALL_DIR} 
 RUN git clone https://github.com/DyogenIBENS/LibsDyogen &&\
@@ -24,7 +21,9 @@ RUN git clone https://github.com/DyogenIBENS/LibsDyogen &&\
 # NB:
 #   zip is used for unzipping, in homology teams only
 #   build-essential provides make, used in homology teams and i-ADHoRe 3.0
-RUN apt-get update && apt-get install -y wget zip build-essential && rm -rf /var/lib/apt/lists/*
+RUN apt-get update 
+RUN apt-get install -y wget zip build-essential
+RUN apt-get autoremove -y
 
 # Install homology teams
 # NB: homolgy teams depends on gcc compiler for make
@@ -40,15 +39,12 @@ RUN wget --no-check-certificate http://euler.slu.edu/~goldwasser/homologyteams/h
 # Follow the INSTALL file (i-adhore-3.0.01/INSTALL) provided by the ADHoRe team
 # NB: needs the universe deposit for mpi: add-apt-repository universe
 WORKDIR ${INSTALL_DIR}
-RUN apt-get update &&\
- echo 'Install core dependencies' &&\
- apt-get install -y cmake g++ &&\
- echo 'Install marginal dependencies' &&\
- apt-get install -y libpng-dev zlib1g-dev &&\
- echo 'Install marginal dependencies from the universe deposit' &&\
- apt-get install -y mpi &&\
- rm -rf /var/lib/apt/lists/* &&\
- wget --no-check-certificate http://bioinformatics.psb.ugent.be/downloads/psb/i-adhore/i-adhore-3.0.01.tar.gz &&\
+RUN apt-get update
+RUN apt-get install -y cmake g++
+RUN apt-get install -y libpng-dev zlib1g-dev
+RUN apt-get install -y mpi
+RUN apt-get autoremove -y
+RUN wget --no-check-certificate http://bioinformatics.psb.ugent.be/downloads/psb/i-adhore/i-adhore-3.0.01.tar.gz &&\
  tar -zxvf i-adhore-3.0.01.tar.gz &&\
  rm i-adhore-3.0.01.tar.gz &&\
  cd i-adhore-3.0.01 &&\
@@ -63,11 +59,10 @@ RUN apt-get update &&\
 # Install Cyntenator
 WORKDIR ${INSTALL_DIR}
 # download the cyntenator files (pointed by https://www.bioinformatics.org/cyntenator/wiki/Main/HomePage)
-RUN apt-get update &&\
- echo 'Install core dependencies' &&\
- apt-get install -y g++ &&\
- rm -rf /var/lib/apt/lists/* &&\
- wget -r -np -nH --cut-dirs=3 -R index.html https://bbc.mdc-berlin.de/svn/bioinformatics/Software/cyntenator/ &&\
+RUN apt-get update
+RUN apt-get install -y g++
+RUN apt-get autoremove -y
+RUN wget --no-check-certificate -r -np -nH --cut-dirs=3 -R index.html https://bbc.mdc-berlin.de/svn/bioinformatics/Software/cyntenator/ &&\
  cd cyntenator &&\
  g++ -Wno-deprecated cyntenator.cpp localign.cpp genome.cpp flow.cpp species_tree.cpp -o cyntenator
 # To plug cyntenator to LibsDyogen
