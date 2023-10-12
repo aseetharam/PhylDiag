@@ -63,7 +63,7 @@ WORKDIR ${INSTALL_DIR}
 RUN apt-get update
 RUN apt-get install -y g++
 RUN apt-get autoremove -y
-RUN git clone --recursive git@github.com:dieterich-lab/cyntenator.git
+RUN git clone --recursive https://github.com/dieterich-lab/cyntenator.git
 RUN cd cyntenator &&\
  g++ -Wno-deprecated cyntenator.cpp localign.cpp genome.cpp flow.cpp species_tree.cpp -o cyntenator
 # To plug cyntenator to LibsDyogen
